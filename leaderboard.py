@@ -5,30 +5,34 @@ ui.label('Quiz Rush - Leaderboard').classes('text-h4')
 ui.label('Top Players').classes('text-h5')
 
 players = [
-    {'name': 'Rahul', 'score': 750},
-    {'name': 'Arun', 'score': 950},
-    {'name': 'Meera', 'score': 850},
+    {'name': 'Rahul', 'score': 750, 'time': 30},
+    {'name': 'Arun', 'score': 950, 'time': 35},
+    {'name': 'Meera', 'score': 950, 'time': 42},
 ]
 
-players = sorted(players, key=lambda player: player['score'], reverse=True)
+# Sort by score and then by time
+players = sorted(
+    players,
+    key=lambda player: (-player['score'], player['time'])
+)
 
 ui.table(
     columns=[
         {'name': 'rank', 'label': 'Rank', 'field': 'rank'},
         {'name': 'name', 'label': 'Player', 'field': 'name'},
         {'name': 'score', 'label': 'Score', 'field': 'score'},
+        {'name': 'time', 'label': 'Time (seconds)', 'field': 'time'},
     ],
     rows=[
         {
             'rank': rank,
             'name': player['name'],
-            'score': player['score']
+            'score': player['score'],
+            'time': player['time']
         }
         for rank, player in enumerate(players, start=1)
     ]
 )
-
-score = 8
 
 results = [
     {
@@ -62,5 +66,5 @@ for result in results:
 
         ui.linear_progress(percentage / 100)
 
-
 ui.run()
+
